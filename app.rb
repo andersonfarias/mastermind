@@ -43,7 +43,7 @@ class Mastermind < Sinatra::Base
 		puts user
 	end
 
-	get '/guess' do
+	post '/guess' do
 		puts 'chegou!'
 	end
 
