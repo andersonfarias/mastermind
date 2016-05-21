@@ -1,0 +1,8 @@
+{
+	"type": "object", 
+	"required": [ "code", "game_key" ],
+	"properties": {
+    	"code": { "type": "string" },
+    	"game_key": { "type": "string" }
+    }
+}

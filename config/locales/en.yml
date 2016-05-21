@@ -1,5 +1,11 @@
 en:
   error:
+    invalid_json: Invalid argument json.
     new_game:
-      user_required: It's required to give the user to start a new game
-      user_json_invalid: Invalid user json
+      user_required: It's required to give the user to start a new game.
+    guess:
+      invalid: The given code is invalid.
+      max_attempts: Gameover. You can't do any more guesses
+      game_solved: This game is already finished.
+      invalid_game_key: There's no game with the game_key provided.
+      required_params: It's required to provide the guess and game_key params.
