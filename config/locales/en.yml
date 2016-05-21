@@ -1,0 +1,5 @@
+en:
+  error:
+    new_game:
+      user_required: It's required to give the user to start a new game
+      user_json_invalid: Invalid user json
