@@ -40,6 +40,8 @@ class Mastermind < Sinatra::Base
 
 		user = JSON.parse args
 
+		
+
 		puts user
 	end
 
