@@ -28,11 +28,13 @@ class Mastermind < Sinatra::Base
 		args = request.body.read
 
 		if args.nil? || args.strip.empty?
+			status 405
 			return json error: t( 'error.new_game.user_required', locale: :en )
 		end
 
 		valid_json = JSON::Validator.validate( './config/schemas/user.json', args, { :strict => true, :validate_schema => true } )
 		if not valid_json
+			status 405
 			return json error: t( 'error.new_game.user_json_invalid', locale: :en )
 		end
 
