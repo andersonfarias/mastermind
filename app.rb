@@ -11,8 +11,8 @@ require 'sinatra/json'
 require 'sinatra/config_file'
 require 'sinatra/cross_origin'
 
-require './models'
-require './validators'
+require File.expand_path('../models', __FILE__)
+require File.expand_path('../validators', __FILE__)
 
 #   Mastermind implements a RESTful API for playing, in single play mode, the Mastermind game.
 #   It supports multiple users hitting the API at the same time playing different games of Mastermind.

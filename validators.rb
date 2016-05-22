@@ -1,6 +1,8 @@
 require 'i18n'
-require './models.rb'
-require './config/messages'
+require 'json-schema'
+
+require File.expand_path('../models', __FILE__)
+require File.expand_path('../config/messages', __FILE__)
 
 #   Error that the API gives in response as JSON when some validation error
 #   related to the game rules or some invalid parameters are given
@@ -55,7 +57,7 @@ class GuessingValidator
 	def validate
 
 		raise ValidationError.new Messages::GAME_SOLVED if @game.solved
-		raise ValidationError.new Messages::MAX_ATTEMPTS if @game.guesses.count == @game.code_length		
+		raise ValidationError.new Messages::MAX_ATTEMPTS if @game.guesses.length == @game.code_length		
 		raise ValidationError.new Messages::INVALID_GUESS if @guess.count == @game.code_length
 
 		code = @guess[ "code" ].upcase.split( "" )

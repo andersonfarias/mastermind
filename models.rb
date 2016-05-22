@@ -1,3 +1,5 @@
+require 'mongoid'
+
 #   Model class that represents one Mastermind game
 #   By default, all games are allowed 8 guessing attempts, each guessing must contain a 8 characters.
 #   The game is started by a user and some logic is applied in it's inicialization

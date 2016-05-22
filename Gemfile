@@ -10,4 +10,6 @@ gem 'mongoid', '~> 5.0.0'
 
 gem 'sinatra', '~> 1.4.7'
 gem 'sinatra-contrib', '~> 1.4.7'
-gem "sinatra-cross_origin", "~> 0.3.1"
+gem "sinatra-cross_origin", '~> 0.3.1'
+
+gem 'rspec', '~> 3.4'
