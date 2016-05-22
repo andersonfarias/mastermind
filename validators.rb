@@ -58,7 +58,7 @@ class GuessingValidator
 
 		raise ValidationError.new Messages::GAME_SOLVED if @game.solved
 		raise ValidationError.new Messages::MAX_ATTEMPTS if @game.guesses.length == @game.code_length		
-		raise ValidationError.new Messages::INVALID_GUESS if @guess.count == @game.code_length
+		raise ValidationError.new Messages::INVALID_GUESS if @guess[ "code" ].length != @game.code_length
 
 		code = @guess[ "code" ].upcase.split( "" )
 		code.each_with_index do | color , index |
