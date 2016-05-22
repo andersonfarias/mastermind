@@ -16,8 +16,8 @@ You can checkout the [swagger.io](./swagger.io) file for the complete API specif
 
 Basically, the API enables you to start a new game and guessing the correct pattern. For every guessing, the API will give you the number of exact and near matches.
 
-You can choose from 8 different colors, duplicate allowed, and you will have up to 8 tryies to guess the correct pattern.
-If you correctly guess the pattern, you win! Otherwise, you lose after the 8 tryies.
+You can choose from 8 different colors, duplicate allowed, and you will have up to 8 attempts to guess the correct pattern.
+If you correctly guess the pattern, you win! Otherwise, you lose after 8 attempts.
 
 The valid colors are:
 
@@ -75,6 +75,20 @@ Before building, you will need to have installed in your machine the following t
   If you're using a remote instance, or cloud, you will have to change the mongoid.yml file and setup a URL for the database. You can find this file at the config folder.
 
   Run `bundle exec rackup -p 4567` to run. This will start the API at http://localhost:4567/
+  
+  Openup a terminal and execute the following command to start a new game
+  
+  ```
+  curl --data "{ \"user\": \"Anderson Farias\" }" http://localhost:4567/new_game
+  ```
+  
+  You should see a response like this
+  
+  ```javascript
+  {"colors":["R","B","G","Y","O","P","C","M"],"code_length":8,"game_key":"574142d7f293448b42000000","num_guesses":0,"past_results":[],"solved":false}
+  ```
+  
+  Have fun!
 
 ## License
 
