@@ -39,8 +39,6 @@ require './validators'
 #      <li>'M' for magenta</li>
 #   </ul>
 #   After you start a new game, it wil give you a unique game_key, which you will be using to guess.
-#
-#   There is a time limit of 5 minutes set for each game, after 5 minutes the game_key is no longer valid and you need to start a new game with the /new_game endpoint.
 class Mastermind < Sinatra::Application
 	register Sinatra::CrossOrigin
 

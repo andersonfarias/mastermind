@@ -1,0 +1,207 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Ruby RESTful JSON API to play the Mastermind game application.\n",
+        "version": "1.0.0",
+        "title": "Mastermind RESTful API",
+        "contact": {
+            "name": "anderson.faryas@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "basePath": "/v2",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/new_game": {
+            "post": {
+                "summary": "Starts a new Mastermind game",
+                "description": "Starts a new Mastermind game. In all games you will have 8 attempts go find out the pattern. You will be given a game_key to reference the game and a list of allowed colors.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "User to start a new game",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "new game started",
+                        "schema": {
+                            "$ref": "#/definitions/NewGame"
+                        }
+                    },
+                    "405": {
+                        "description": "validation error",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationError"
+                        }
+                    }
+                }
+            }
+        },
+        "/guess": {
+            "post": {
+                "summary": "Attempt to guess the correct pattern",
+                "description": "Attemp to guess the correct pattern of a specific game. The pattern was generated at the start of the game. The pattern and the guess are 8 characters long and the valid characters are R\",\"B\",\"G\",\"Y\",\"O\",\"P\",\"C\",\"M\".",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Attempt of guessing the correct pattern",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Attempt"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "result of the guessing attempt for a game",
+                        "schema": {
+                            "$ref": "#/definitions/Game"
+                        }
+                    },
+                    "405": {
+                        "description": "validation error",
+                        "schema": {
+                            "$ref": "#/definitions/ValidationError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "type": "string"
+                }
+            }
+        },
+        "Attempt": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "game_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "Guess": {
+            "type": "object",
+            "properties": {
+                "exact": {
+                    "type": "integer"
+                },
+                "guess": {
+                    "type": "string"
+                },
+                "near": {
+                    "type": "integer"
+                }
+            }
+        },
+        "NewGame": {
+            "type": "object",
+            "properties": {
+                "colors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "code_length": {
+                    "type": "integer"
+                },
+                "game_key": {
+                    "type": "string"
+                },
+                "num_guesses": {
+                    "type": "integer"
+                },
+                "past_results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Guess"
+                    }
+                },
+                "solved": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Game": {
+            "type": "object",
+            "properties": {
+                "colors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "code_length": {
+                    "type": "integer"
+                },
+                "game_key": {
+                    "type": "string"
+                },
+                "num_guesses": {
+                    "type": "integer"
+                },
+                "past_results": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Guess"
+                    }
+                },
+                "result": {
+                    "type": "object",
+                    "properties": {
+                        "exact": {
+                            "type": "integer"
+                        },
+                        "guess": {
+                            "type": "string"
+                        },
+                        "near": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "solved": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ValidationError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
