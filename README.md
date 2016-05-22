@@ -39,6 +39,7 @@ The application uses the following stack:
 * [Sinatra Cross Origin](https://github.com/britg/sinatra-cross_origin): it's a Cross Origin Request Sharing extension for Sinatra. It's used to enable CORS.
 * [Mongoid](https://docs.mongodb.com/ecosystem/tutorial/ruby-mongoid-tutorial/): it's an ODM (Object-Document-Mapper) framework for MongoDB in Ruby.
 * [MongoDB](https://www.mongodb.com/): it's a NoSQL database.
+* [RSpec](http://rspec.info/): it's a testing framework for Behaviour Driven Development for Ruby.
 
 ## Pre-Requisites
 
@@ -89,6 +90,14 @@ Before building, you will need to have installed in your machine the following t
   ```
   
   Have fun!
+
+## Testing
+
+Just execute the following command at the project's root directory
+
+```
+bundle exec rspec
+```
 
 ## License
 
