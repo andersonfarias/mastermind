@@ -1,19 +1,44 @@
-# Tweet Microservice
-# Ruby application that periodically fetches tweets on three topics, store them into a relational database and makes them avaible via a REST API.
+# Mastermind RESTful API
+# Ruby RESTful JSON API to play the Mastermind game application.
 
 ## Description
 
-This is a Ruby application in Sinatra that represents a microservice to periodically fetch the lastest 10 tweets of three different topics and store them into a relational database.
-It make those tweets available via a REST API, where it's possible to give a topic as an argument and the microservice will return the lasted 10 tweets for that topic that were persisted into the database.
-It uses the following stack:
+This is a Ruby application, in Sinatra, that implements a RESTful JSON API for playing, in single play mode, the Mastermind game.
+It supports multiple users hitting the API at the same time playing different games of Mastermind.
+You can checkout the rules at [Wikipedia](https://en.wikipedia.org/wiki/Mastermind_(board_game)#Gameplay_and_rules)
+
+The API only has two endpoints which are outlined below.
+
+* POST /new_game
+* POST /guess
+
+You can checkout the [swagger.io](./swagger.io) file for the complete API specification.
+
+Basically, the API enables you to start a new game and guessing the correct pattern. For every guessing, the API will give you the number of exact and near matches.
+
+You can choose from 8 different colors, duplicate allowed, and you will have up to 8 attempts to guess the correct pattern.
+If you correctly guess the pattern, you win! Otherwise, you lose after 8 attempts.
+
+The valid colors are:
+
+* 'R' for red
+* 'B' for blue
+* 'G' for gray
+* 'Y' for yellow
+* 'O' for orange
+* 'P' for purple
+* 'C' for cyan
+* 'M' for magenta
+
+After you start a new game, it wil give you a unique game_key, which you will be using to guess.
+
+The application uses the following stack:
 
 * [Sinatra](http://www.sinatrarb.com/): it's a lightwight HTTP client for ruby. It's used to implement the REST API.
-* [Sinatra Contrib](https://github.com/sinatra/sinatra-contrib): it's a collection of common Sinatra extensions. It's used to read configuration file and respond JSON.
-* [Sinatra Active Record](http://gruntjs.com/): it extends Sinatra with ActiveRecord. It's used to communicate with the relational database (ORM Layer).
-* [SQLite3](https://www.sqlite.org/): it's a lightweight SQL database engine. It's used as the datastore.
-* [Ruby Twitter](https://github.com/sferik/twitter): it's a A Ruby interface to the Twitter API. It's used to easly communicate with the Twitter's API.
-* [Rufus Scheduler](https://github.com/jmettraux/rufus-scheduler): it's a scheduler for Ruby. It's used to schedule the task of finding the lasted tweets and store them.
+* [Sinatra Contrib](https://github.com/sinatra/sinatra-contrib): it's a collection of common Sinatra extensions.
 * [Sinatra Cross Origin](https://github.com/britg/sinatra-cross_origin): it's a Cross Origin Request Sharing extension for Sinatra. It's used to enable CORS.
+* [Mongoid](https://docs.mongodb.com/ecosystem/tutorial/ruby-mongoid-tutorial/): it's an ODM (Object-Document-Mapper) framework for MongoDB in Ruby.
+* [MongoDB](https://www.mongodb.com/): it's a NoSQL database.
 
 ## Pre-Requisites
 
@@ -21,19 +46,20 @@ Before building, you will need to have installed in your machine the following t
 
 * Ruby - 2.2.3+
 * Bundler - 1.12.4+
+* MongoDB - 3.2.x
 
 ## Building
 
   To build and run the application, first clone this repo in your machine:
   
   ```
-  git clone https://github.com/andersonfarias/top-twitter-topics.git
+  git clone https://github.com/andersonfarias/mastermind.git
   ```
   
-  Open the terminal and go to the microservice application folder
+  Open the terminal and go to application folder
   
   ```
-  cd path_to_donwloaded_repo/tweet_microservice
+  cd mastermind
   ```
   
   Execute the following command to install required libraries:
@@ -42,33 +68,27 @@ Before building, you will need to have installed in your machine the following t
   bundle install
   ```
   
-  Now execute this rake tasks to create the database and generate the schema:
+  Before you can run the application, you will need a running MongoDB instance. You can easily follow a [tutorial](https://docs.mongodb.com/manual/installation/) to get MongoDB running into your own machine or use a [cloud instance](https://mlab.com/).
   
-  ```
-  bundle exec rake db:create
-  bundle exec rake db:migrate
-  ```
-  
-  Before you can run the application, you will need credentials to access the Twitter's API. You can read the [Twitter's documentation](https://dev.twitter.com/oauth/overview) for how to get them.
+  If you decided to locally install and run MongoDB, then you just need to run it on default port. The application will start, connect to MongoDB and create everything it needs.
 
-  Now, we need to create 4 environment variables to store the Twitter's credentials:
-  
-  ```
-  export TWITTER_CONSUMER_KEY="YOUR_CONSUMER_KEY"
-  export TWITTER_CONSUMER_SECRET="YOUR_CONSUMER_SECRET"
-  export TWITTER_ACCESS_TOKEN="YOUR_ACCESS_TOKEN"
-  export TWITTER_TOKEN_SECRET="YOUR_ACCESS_SECRET"
-  ```
+  If you're using a remote instance, or cloud, you will have to change the mongoid.yml file and setup a URL for the database. You can find this file at the config folder.
 
-  Run `bundle exec rackup -p 4567` to run. This will start the application at http://localhost:4567/
+  Run `bundle exec rackup -p 4567` to run. This will start the API at http://localhost:4567/
   
-  Go to the following URL [http://localhost:4567/tweets/topics](http://localhost:4567/tweets/topics). If you get the following response, then everything is working just fine:
+  Openup a terminal and execute the following command to start a new game
   
   ```
-  {"topics":["healthcare","nasa","open source"]}
+  curl --data "{ \"user\": \"Anderson Farias\" }" http://localhost:4567/new_game
   ```
   
-  Note that the application will run on port 4567 and that the front-end application is expecting the host to be 127.0.0.1 and port 4567. If you change any of these, you will have to change at the front-end application the new host and port.
+  You should see a response like this
+  
+  ```javascript
+  {"colors":["R","B","G","Y","O","P","C","M"],"code_length":8,"game_key":"574142d7f293448b42000000","num_guesses":0,"past_results":[],"solved":false}
+  ```
+  
+  Have fun!
 
 ## License
 
